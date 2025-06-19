@@ -1,0 +1,97 @@
+﻿@model T3_Mamani_Maria.Models.Libro
+
+@{
+    ViewData["Title"] = "Gestión de Libros";
+    var libros = ViewData["ListaLibros"] as List<T3_Mamani_Maria.Models.Libro>;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <!-- Formulario Crear/Editar -->
+    <div class="col-md-6">
+        <form asp-action="Index" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label asp-for="Titulo" class="form-label"></label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Autor" class="form-label"></label>
+                <input asp-for="Autor" class="form-control" />
+                <span asp-validation-for="Autor" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Tema" class="form-label"></label>
+                <input asp-for="Tema" class="form-control" />
+                <span asp-validation-for="Tema" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Editorial" class="form-label"></label>
+                <input asp-for="Editorial" class="form-control" />
+                <span asp-validation-for="Editorial" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Anio" class="form-label"></label>
+                <input asp-for="Anio" class="form-control" type="number" />
+                <span asp-validation-for="Anio" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Paginas" class="form-label"></label>
+                <input asp-for="Paginas" class="form-control" type="number" />
+                <span asp-validation-for="Paginas" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Categoria" class="form-label"></label>
+                <input asp-for="Categoria" class="form-control" />
+                <span asp-validation-for="Categoria" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">@((Model.Id == 0) ? "Crear" : "Actualizar")</button>
+            <a asp-action="Index" class="btn btn-secondary">Limpiar</a>
+        </form>
+    </div>
+
+    <!-- Lista de libros -->
+    <div class="col-md-6">
+        <h2>Lista de libros</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Año</th>
+                    <th>Categoría</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var libro in libros)
+                {
+                    <tr>
+                        <td>@libro.Titulo</td>
+                        <td>@libro.Autor</td>
+                        <td>@libro.Anio</td>
+                        <td>@libro.Categoria</td>
+                        <td>
+                            <a asp-action="Index" asp-route-id="@libro.Id" class="btn btn-sm btn-warning">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@libro.Id" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar este libro?');">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
